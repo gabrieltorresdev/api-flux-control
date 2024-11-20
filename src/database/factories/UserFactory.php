@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use App\Persistence\Eloquent\Models\UserModel;
+use App\Persistence\Eloquent\Model\UserModel;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;

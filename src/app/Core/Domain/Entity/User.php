@@ -1,6 +1,6 @@
 <?php
 
-namespace Core\Domain\Entities;
+namespace App\Core\Domain\Entity;
 
 class User extends Entity
 {

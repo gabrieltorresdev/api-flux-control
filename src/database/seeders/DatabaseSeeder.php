@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Persistence\Eloquent\Models\UserModel;
+use App\Persistence\Eloquent\Model\UserModel;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder

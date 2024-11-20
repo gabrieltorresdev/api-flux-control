@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Persistence\Eloquent\Models;
+namespace App\Persistence\Eloquent\Model;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Database\Factories\UserFactory;
@@ -49,16 +49,6 @@ class UserModel extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
-    }
-
-    public function demandasResponsavel(): HasMany
-    {
-        return $this->hasMany(DemandaModel::class, 'user_responsavel_id');
-    }
-
-    public function demandasRelator(): HasMany
-    {
-        return $this->hasMany(DemandaModel::class, 'user_relator_id');
     }
 
     protected static function newFactory(): Factory

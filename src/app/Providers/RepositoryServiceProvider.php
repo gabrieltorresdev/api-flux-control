@@ -2,25 +2,14 @@
 
 namespace App\Providers;
 
-use App\Persistence\Eloquent\Repositories\UserRepository;
-use Core\Domain\Repositories\UserRepositoryInterface;
+use App\Persistence\Eloquent\Repository\UserRepository;
+use App\Core\Domain\Repository\IUserRepository;
 use Illuminate\Support\ServiceProvider;
 
 class RepositoryServiceProvider extends ServiceProvider
 {
-    /**
-     * Register services.
-     */
     public function register(): void
     {
-        $this->app->singleton(UserRepositoryInterface::class, UserRepository::class);
-    }
-
-    /**
-     * Bootstrap services.
-     */
-    public function boot(): void
-    {
-        //
+        $this->app->singleton(IUserRepository::class, UserRepository::class);
     }
 }

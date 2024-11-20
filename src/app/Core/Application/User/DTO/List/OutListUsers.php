@@ -1,10 +1,10 @@
 <?php
 
-namespace Core\Application\Dtos\User\List;
+namespace App\Core\Application\User\DTO\List;
 
 use App\Shared\ObjectAbstract;
 
-class OutputListUserDto extends ObjectAbstract
+class OutListUsers extends ObjectAbstract
 {
     public string $id;
     public string $name;
