@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Persistence\Eloquent\Model\TransactionCategoryModel;
 use App\Persistence\Eloquent\Model\UserModel;
 use Illuminate\Database\Seeder;
 
@@ -10,6 +11,7 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         UserModel::factory(5)->create();
+        TransactionCategoryModel::factory(5)->create();
     }
 
     private function seedRelationExample()
