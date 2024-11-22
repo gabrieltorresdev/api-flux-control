@@ -24,6 +24,7 @@ abstract class ObjectAbstract extends Data
     }
 
     /**
+     * @return static[]
      * @throws Exception
      */
     public static function arrayOf(mixed ...$payloads): array
