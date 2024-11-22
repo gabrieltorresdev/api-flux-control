@@ -13,6 +13,19 @@ readonly class TransactionCategoryRepository implements ITransactionCategoryRepo
     public function __construct(private Model $model)
     {}
 
+    public function index(?string $name, ?TransactionCategoryType $type): array
+    {
+        return $this->model::query()
+            ->when($name, function ($query) use ($name) {
+                $query->where('name', 'like', "%$name%");
+            })
+            ->when($type, function ($query) use ($type) {
+                $query->where('type', '=', "$type->value");
+            })
+            ->get()
+            ->toArray();
+    }
+
     public function create(string $name, TransactionCategoryType $type): TransactionCategory
     {
         $result = $this->model::query()->create(compact(['name', 'type']));

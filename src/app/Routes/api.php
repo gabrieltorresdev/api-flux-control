@@ -16,6 +16,7 @@ Route::group([
     Route::group([
         'prefix' => 'transactions-categories',
     ], function () {
-        Route::post('/', [TransactionCategoryController::class, 'create']);
+        Route::get('', [TransactionCategoryController::class, 'index']);
+        Route::post('', [TransactionCategoryController::class, 'create']);
     });
 });
