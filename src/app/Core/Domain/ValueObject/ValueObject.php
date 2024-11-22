@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Core\Domain\ValueObjects;
+namespace App\Core\Domain\ValueObject;
 
 use Illuminate\Contracts\Support\Arrayable;
 
