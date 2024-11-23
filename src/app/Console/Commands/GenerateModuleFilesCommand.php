@@ -6,9 +6,9 @@ use Exception;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
 use function Laravel\Prompts\multiselect;
-use function Laravel\Prompts\text;
+use function Laravel\Prompts\suggest;
 
-class GenerateModuleFiles extends Command
+class GenerateModuleFilesCommand extends Command
 {
     protected $signature = 'generate:module-files {module?} {action?}';
     protected $description = 'Generates default files for a module based on stubs';
@@ -43,12 +43,50 @@ class GenerateModuleFiles extends Command
 
     private function resolveParameter(string $name, string $prompt): string
     {
-        return $this->argument($name) ?? text($prompt, 'E.g. User');
+        return ucwords(
+            str($this->argument($name) ?? suggest($prompt, $this->getModules(), 'E.g. User'))->camel()
+        );
+    }
+
+    protected function getModules(): array
+    {
+        $entitiesPath = base_path('app/Core/Domain/Entity');
+        $modulesPath = base_path('app/Core/Application');
+
+        $entityFiles = File::exists($entitiesPath)
+            ? File::files($entitiesPath)
+            : [];
+
+        $moduleDirectories = File::exists($modulesPath)
+            ? File::directories($modulesPath)
+            : [];
+
+        $entities = array_map(
+            fn($file) => $file->getFilenameWithoutExtension(),
+            $entityFiles
+        );
+
+        $entities = array_values(array_filter($entities, fn($entity) => $entity !== "Entity"));
+
+        $modules = array_map(
+            fn($path) => basename($path),
+            $moduleDirectories
+        );
+
+        return array_unique(array_merge($entities, $modules));
     }
 
     private function resolveOptionalParameter(string $name, string $prompt): ?string
     {
-        return $this->argument($name) ?? text($prompt, 'E.g. Create');
+        return ucwords(
+            str($this->argument($name) ?? suggest($prompt, [
+                "Create",
+                "List",
+                "Show",
+                "Update",
+                "Delete"
+            ], 'E.g. Create'))->camel()
+        );
     }
 
     private function initializeFilePaths(string $module, ?string $action): void
@@ -60,6 +98,7 @@ class GenerateModuleFiles extends Command
             "app/Persistence/Eloquent/Model/{$module}Model.php",
             "app/Persistence/Eloquent/Repository/{$module}Repository.php",
             "app/Http/Controllers/{$module}Controller.php",
+            "database/factories/{$module}Factory.php",
         ];
 
         $actionFiles = $action ? [
@@ -74,7 +113,7 @@ class GenerateModuleFiles extends Command
 
     private function getNonExistingFiles(array $files): array
     {
-        return array_filter($files, fn($file) => !File::exists($file));
+        return array_values(array_filter($files, fn($file) => !File::exists($file)));
     }
 
     private function promptFileSelection(array $files): array
@@ -102,7 +141,10 @@ class GenerateModuleFiles extends Command
             return;
         }
 
-        $stubPath = $this->determineStubPath($filePath, $action);
+        $hasAction = !empty($action);
+        $hasRequest = str_contains(implode('', $this->files), '/Http/Requests/');
+
+        $stubPath = $this->getStubPath($filePath, $hasAction, $hasRequest);
         if (!File::exists($stubPath)) {
             $this->error("Stub not found: $stubPath");
             return;
@@ -117,7 +159,7 @@ class GenerateModuleFiles extends Command
     /**
      * @throws Exception
      */
-    private function determineStubPath(string $filePath, ?string $action): string
+    private function getStubPath(string $filePath, bool $hasAction, bool $hasRequest): string
     {
         return base_path('stubs/' . match (true) {
                 str_contains($filePath, '/Action/') => 'module-action.stub',
@@ -128,15 +170,28 @@ class GenerateModuleFiles extends Command
                 str_contains($filePath, '/Eloquent/Repository/') => 'module-repository.stub',
                 str_contains($filePath, '/Eloquent/Model/') => 'module-model.stub',
                 str_contains($filePath, '/Mapper/') => 'module-mapper.stub',
-                str_contains($filePath, '/Controllers/') => $this->selectControllerStub($action),
+                str_contains($filePath, '/Controllers/') => $this->getControllerStub($hasAction, $hasRequest),
                 str_contains($filePath, '/Requests/') => 'module-request.stub',
+                str_contains($filePath, 'database/factories/') => 'module-factory.stub',
                 default => throw new Exception("Stub not found for file: $filePath"),
             });
     }
 
-    private function selectControllerStub(?string $action): string
+    private function getControllerStub(bool $hasAction, bool $hasRequest): string
     {
-        return $action ? 'module-controller-with-action.stub' : 'module-controller.stub';
+        if ($hasAction && $hasRequest) {
+            return 'module-controller-with-action-and-request.stub';
+        }
+
+        if ($hasAction) {
+            return 'module-controller-with-action.stub';
+        }
+
+        if ($hasRequest) {
+            return 'module-controller-with-request.stub';
+        }
+
+        return 'module-controller.stub';
     }
 
     private function populateStubContent(string $stubPath, string $module, ?string $action): string
@@ -145,7 +200,7 @@ class GenerateModuleFiles extends Command
 
         return str_replace(
             ['{{module}}', '{{Module}}', '{{action}}', '{{Action}}'],
-            [strtolower($module), ucfirst($module), strtolower($action ?? ''), ucfirst($action ?? '')],
+            [str($module)->camel(), ucfirst(str($module)->camel()), str($action ?? '')->camel(), ucfirst(str($action ?? '')->camel())],
             $content
         );
     }
@@ -168,6 +223,10 @@ class GenerateModuleFiles extends Command
         if (!empty($this->existingFiles)) {
             $this->info("\nExisting files:");
             $this->line(implode("\n - ", $this->existingFiles));
+        }
+
+        if (empty($this->createdFiles)) {
+            $this->info("\nNo file created.");
         }
     }
 }
