@@ -1,0 +1,23 @@
+<?php
+
+namespace App\Mapper;
+
+use App\Core\Domain\Entity\{{Module}} as Entity;
+use App\Persistence\Eloquent\Model\{{Module}}Model as Model;
+
+class {{Module}}Mapper implements Mapper
+{
+    public static function fromArray(array|object $data): Entity
+    {
+        return self::fromEloquent(new Model($data));
+    }
+
+    public static function fromEloquent(Model $model): Entity
+    {
+        return new Entity(
+            id: $model->id,
+            name: $model->name,
+            type: $model->type
+        );
+    }
+}

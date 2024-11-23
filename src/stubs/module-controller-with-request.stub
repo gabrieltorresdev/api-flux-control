@@ -1,0 +1,15 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Core\Application\{{Module}}\Action\{{Action}}{{Module}}Action;
+use App\Http\Requests\{{Action}}{{Module}}Request;
+use Illuminate\Http\JsonResponse;
+
+class {{Module}}Controller extends Controller
+{
+    public function {{action}}({{Action}}{{Module}}Request $request): JsonResponse
+    {
+        return $this->jsonResponse(200, 'Data returned successfully!', $data);
+    }
+}

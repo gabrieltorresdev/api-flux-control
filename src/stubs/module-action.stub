@@ -1,0 +1,22 @@
+<?php
+
+namespace App\Core\Application\{{Module}}\Action;
+
+use App\Core\Application\{{Module}}\DTO\{{Action}}\Out{{Action}}{{Module}};
+use App\Core\Domain\Repository\I{{Module}}Repository;
+use Exception;
+
+readonly class {{Action}}{{Module}}Action
+{
+    public function __construct(private I{{Module}}Repository $repository)
+    {}
+
+    /**
+     * @return Out{{Action}}{{Module}}[]
+     * @throws Exception
+     */
+    public function execute(): array
+    {
+        return Out{{Action}}{{Module}}::arrayOf($this->repository->{{action}}());
+    }
+}

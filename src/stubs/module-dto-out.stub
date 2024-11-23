@@ -1,0 +1,10 @@
+<?php
+
+namespace App\Core\Application\{{Module}}\DTO\{{Action}};
+
+use App\Shared\ObjectAbstract;
+
+class Out{{Action}}{{Module}} extends ObjectAbstract
+{
+    public string $property;
+}

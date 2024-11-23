@@ -1,0 +1,11 @@
+<?php
+
+namespace App\Core\Domain\Entity;
+
+class {{Module}} extends Entity
+{
+    public function __construct(
+        public string $property
+    ) {
+    }
+}

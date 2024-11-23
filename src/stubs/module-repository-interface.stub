@@ -1,0 +1,11 @@
+<?php
+
+namespace App\Core\Domain\Repository;
+
+use App\Core\Domain\Entity\{{Module}};
+
+interface I{{Module}}Repository
+{
+    /** @return {{Module}}[] */
+    public function {{action}}(): array;
+}

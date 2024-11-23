@@ -1,0 +1,18 @@
+<?php
+
+namespace App\Persistence\Eloquent\Repository;
+
+use App\Core\Domain\Repository\I{{Module}}Repository;
+use App\Mapper\{{Module}}Mapper;
+use App\Persistence\Eloquent\Model\{{Module}}Model as Model;
+
+readonly class {{Module}}Repository implements I{{Module}}Repository
+{
+    public function __construct(private Model $model)
+    {}
+
+    public function {{action}}(): array
+    {
+        return $this->model->all();
+    }
+}
