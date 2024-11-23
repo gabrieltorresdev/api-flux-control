@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Persistence\Eloquent\Model\TransactionCategoryModel;
+use App\Persistence\Eloquent\Model\TransactionModel;
 use App\Persistence\Eloquent\Model\UserModel;
 use Illuminate\Database\Seeder;
 
@@ -11,7 +12,16 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         UserModel::factory(5)->create();
-        TransactionCategoryModel::factory(5)->create();
+        $categories = TransactionCategoryModel::factory(5)->create();
+        TransactionModel::factory(20)
+            ->state(function () use ($categories) {
+                $category = $categories->random();
+                return [
+                    'category_id' => $category->id,
+                    'type' => $category->type,
+                ];
+            })
+            ->create();
     }
 
     private function seedRelationExample()
