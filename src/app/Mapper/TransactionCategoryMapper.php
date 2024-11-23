@@ -5,11 +5,11 @@ namespace App\Mapper;
 use App\Core\Domain\Entity\TransactionCategory as Entity;
 use App\Persistence\Eloquent\Model\TransactionCategoryModel as Model;
 
-class TransactionCategoryMapper
+class TransactionCategoryMapper implements Mapper
 {
-    public static function fromArray(array|object $dados): Entity
+    public static function fromArray(array|object $data): Entity
     {
-        return self::fromEloquent(new Model($dados));
+        return self::fromEloquent(new Model($data));
     }
 
     public static function fromEloquent(Model $model): Entity

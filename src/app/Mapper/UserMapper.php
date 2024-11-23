@@ -5,11 +5,11 @@ namespace App\Mapper;
 use App\Core\Domain\Entity\User as Entity;
 use App\Persistence\Eloquent\Model\UserModel as Model;
 
-class UserMapper
+class UserMapper implements Mapper
 {
-    public static function fromArray(array|object $dados): Entity
+    public static function fromArray(array|object $data): Entity
     {
-        return self::fromEloquent(new Model($dados));
+        return self::fromEloquent(new Model($data));
     }
 
     public static function fromEloquent(Model $model): Entity
