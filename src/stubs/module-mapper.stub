@@ -16,8 +16,6 @@ class {{Module}}Mapper implements Mapper
     {
         return new Entity(
             id: $model->id,
-            name: $model->name,
-            type: $model->type
         );
     }
 }
