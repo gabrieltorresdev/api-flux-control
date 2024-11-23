@@ -103,8 +103,8 @@ class GenerateModuleFilesCommand extends Command
 
         $actionFiles = $action ? [
             "app/Core/Application/{$module}/Action/{$action}{$module}Action.php",
-            "app/Core/Application/{$module}/DTO/In{$action}{$module}.php",
-            "app/Core/Application/{$module}/DTO/Out{$action}{$module}.php",
+            "app/Core/Application/{$module}/DTO/{$action}/In{$action}{$module}.php",
+            "app/Core/Application/{$module}/DTO/{$action}/Out{$action}{$module}.php",
             "app/Http/Requests/{$action}{$module}Request.php",
         ] : [];
 
@@ -163,8 +163,8 @@ class GenerateModuleFilesCommand extends Command
     {
         return base_path('stubs/' . match (true) {
                 str_contains($filePath, '/Action/') => 'module-action.stub',
-                str_contains($filePath, '/DTO/In') => 'module-dto-in.stub',
-                str_contains($filePath, '/DTO/Out') => 'module-dto-out.stub',
+                str_contains($filePath, '/DTO/') && str_contains($filePath, '/In') => 'module-dto-in.stub',
+                str_contains($filePath, '/DTO/') && str_contains($filePath, '/Out') => 'module-dto-out.stub',
                 str_contains($filePath, '/Domain/Repository/') => 'module-repository-interface.stub',
                 str_contains($filePath, '/Entity/') => 'module-entity.stub',
                 str_contains($filePath, '/Eloquent/Repository/') => 'module-repository.stub',
