@@ -2,6 +2,7 @@
 
 namespace App\Persistence\Eloquent\Model;
 
+use App\Core\Domain\Enum\TransactionCategoryType;
 use Database\Factories\TransactionCategoryFactory;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -16,6 +17,10 @@ class TransactionCategoryModel extends Model
     protected $guarded = [
         'created_at',
         'updated_at',
+    ];
+
+    protected $casts = [
+        'type' => TransactionCategoryType::class,
     ];
 
     protected static function newFactory(): Factory
