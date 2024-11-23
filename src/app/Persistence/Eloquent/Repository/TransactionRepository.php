@@ -32,4 +32,13 @@ readonly class TransactionRepository implements ITransactionRepository
             ->map(fn ($transaction) => TransactionMapper::fromEloquent($transaction))
             ->toArray();
     }
+
+    public function create(string $category_id, float $amount, Carbon $date, TransactionType $type, ?string $description): Transaction
+    {
+        $result = $this->model
+            ->create(compact('category_id', 'amount', 'date', 'type', 'description'))
+            ->load('category');
+
+        return TransactionMapper::fromEloquent($result);
+    }
 }

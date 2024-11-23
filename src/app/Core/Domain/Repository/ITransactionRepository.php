@@ -11,4 +11,5 @@ interface ITransactionRepository
 {
     /** @return Transaction[] */
     public function findAll(?TransactionCategory $category, ?Carbon $startDate, ?Carbon $endDate, ?TransactionType $type): array;
+    public function create(string $category_id, float $amount, Carbon $date, TransactionType $type, ?string $description): Transaction;
 }

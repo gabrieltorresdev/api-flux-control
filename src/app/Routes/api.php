@@ -18,6 +18,7 @@ Route::group([
         'prefix' => 'transactions',
     ], function () {
         Route::get('', [TransactionController::class, 'index']);
+        Route::post('', [TransactionController::class, 'create']);
     });
 
     Route::group([
