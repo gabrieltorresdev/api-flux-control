@@ -8,6 +8,8 @@ primary_region = 'gru'
 console_command = 'php /var/www/html/artisan tinker'
 
 [build]
+  dockerfile = "Dockerfile"
+  ignorefile = ".dockerignore"
   [build.args]
     PHP_VERSION = '8.3'
 
