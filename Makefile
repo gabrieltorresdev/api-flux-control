@@ -21,3 +21,6 @@ queues_stop:
 
 artisan:
 	docker compose exec app bash -ci "php artisan $(filter-out $@,$(MAKECMDGOALS))"
+
+fly-deploy:
+	fly deploy --no-cache --config="docker/production/fly/fly.toml" --dockerfile="docker/production/fly/Dockerfile"

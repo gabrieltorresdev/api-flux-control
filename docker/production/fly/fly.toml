@@ -1,0 +1,36 @@
+# fly.toml app configuration file generated for api-flux-control on 2024-12-12T18:32:13-03:00
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
+
+app = 'api-flux-control'
+primary_region = 'gru'
+console_command = 'php /var/www/html/artisan tinker'
+
+[build]
+  [build.args]
+    PHP_VERSION = '8.3'
+
+[env]
+  APP_ENV = 'production'
+  LOG_CHANNEL = 'stderr'
+  LOG_LEVEL = 'info'
+  LOG_STDERR_FORMATTER = 'Monolog\Formatter\JsonFormatter'
+  SESSION_DRIVER = 'cookie'
+  SESSION_SECURE_COOKIE = 'true'
+  CACHE_STORE = 'database'
+
+  #DATABASE
+  DB_CONNECTION = 'pgsql'
+  DB_DATABASE = 'postgres'
+
+[http_service]
+  internal_port = 8080
+  force_https = true
+  auto_stop_machines = 'stop'
+  auto_start_machines = true
+  min_machines_running = 0
+  processes = ['app']
+
+[[vm]]
+  size = 'shared-cpu-1x'
