@@ -17,7 +17,7 @@ class CreateTransactionRequest extends FormRequest
             'categoryId' => ['required', 'uuid', 'exists:transactions_categories,id'],
             'title' => ['string', 'max:255'],
             'amount' => ['required', 'numeric', 'gt:0'],
-            'dateTime' => ['required', 'date', 'before_or_equal:today'],
+            'dateTime' => ['required', 'date', 'before:tomorrow'],
         ];
     }
 }
