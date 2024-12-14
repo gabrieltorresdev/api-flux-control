@@ -10,6 +10,8 @@ use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 readonly class ListTransactionAction
 {
+    private const int DEFAULT_PER_PAGE = 15;
+
     public function __construct(private ITransactionRepository $repository)
     {}
 
@@ -25,7 +27,7 @@ readonly class ListTransactionAction
             $data->type,
             $data->startDate,
             $data->endDate,
-            $data->perPage
+            $data->perPage ?? static::DEFAULT_PER_PAGE
         )->through(fn ($transaction) => OutListTransaction::from($transaction));
     }
 }

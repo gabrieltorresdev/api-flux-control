@@ -21,7 +21,7 @@ readonly class TransactionRepository implements ITransactionRepository
         ?TransactionCategoryType $type,
         ?Carbon $startDate,
         ?Carbon $endDate,
-        int $perPage = 15
+        int $perPage
     ): LengthAwarePaginator
     {
         return $this->model::query()

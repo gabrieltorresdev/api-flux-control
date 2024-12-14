@@ -11,6 +11,6 @@ use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 interface ITransactionRepository
 {
     /** @return LengthAwarePaginator<Transaction> */
-    public function findAll(?string $search, ?string $categoryId, ?TransactionCategoryType $type, ?Carbon $startDate, ?Carbon $endDate, int $perPage = 15): LengthAwarePaginator;
+    public function findAll(?string $search, ?string $categoryId, ?TransactionCategoryType $type, ?Carbon $startDate, ?Carbon $endDate, int $perPage): LengthAwarePaginator;
     public function create(string $categoryId, string $title, float $amount, Carbon $dateTime): Transaction;
 }
