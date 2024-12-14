@@ -17,8 +17,7 @@ class DatabaseSeeder extends Seeder
             ->state(function () use ($categories) {
                 $category = $categories->random();
                 return [
-                    'category_id' => $category->id,
-                    'type' => $category->type,
+                    'category_id' => $category->id
                 ];
             })
             ->create();

@@ -18,11 +18,10 @@ readonly class CreateTransactionAction
     public function execute(InCreateTransaction $data): OutCreateTransaction
     {
         return OutCreateTransaction::from($this->repository->create(
-            $data->category_id,
+            $data->categoryId,
+            $data->title,
             $data->amount,
-            $data->date,
-            $data->type,
-            $data->description,
+            $data->dateTime,
         ));
     }
 }

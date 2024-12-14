@@ -2,9 +2,7 @@
 
 namespace App\Http\Requests;
 
-use App\Core\Domain\Enum\TransactionType;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 
 class CreateTransactionRequest extends FormRequest
 {
@@ -16,11 +14,10 @@ class CreateTransactionRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'category_id' => ['required', 'uuid', 'exists:transactions_categories,id'],
+            'categoryId' => ['required', 'uuid', 'exists:transactions_categories,id'],
+            'title' => ['string', 'max:255'],
             'amount' => ['required', 'numeric', 'gt:0'],
-            'date' => ['required', 'date_format:Y-m-d', 'before_or_equal:today'],
-            'type' => ['required', 'string', Rule::enum(TransactionType::class)],
-            'description' => ['nullable', 'string', 'max:255'],
+            'dateTime' => ['required', 'date', 'before_or_equal:today'],
         ];
     }
 }

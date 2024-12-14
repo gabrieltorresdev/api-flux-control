@@ -16,10 +16,9 @@ class TransactionMapper implements Mapper
     {
         $entity =  new Entity(
             id: $model->id,
-            type: $model->type,
+            title: $model->title,
             amount: $model->amount,
-            date: $model->date,
-            description: $model->description
+            dateTime: $model->date_time,
         );
 
         if ($model->relationLoaded('category')) {

@@ -2,7 +2,6 @@
 
 namespace App\Persistence\Eloquent\Model;
 
-use App\Core\Domain\Enum\TransactionType;
 use Database\Factories\TransactionFactory;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -21,8 +20,7 @@ class TransactionModel extends Model
     ];
 
     protected $casts = [
-        'date' => 'date:Y-m-d',
-        'type' => TransactionType::class,
+        'date_time' => 'datetime',
     ];
 
     protected static function newFactory(): Factory

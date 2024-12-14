@@ -2,7 +2,6 @@
 
 namespace App\Core\Domain\Entity;
 
-use App\Core\Domain\Enum\TransactionType;
 use Carbon\Carbon;
 
 class Transaction extends Entity
@@ -11,10 +10,9 @@ class Transaction extends Entity
 
     public function __construct(
         public string $id,
-        public TransactionType $type,
+        public string $title,
         public float $amount,
-        public Carbon $date,
-        public ?string $description
+        public Carbon $dateTime,
     ) {
     }
 

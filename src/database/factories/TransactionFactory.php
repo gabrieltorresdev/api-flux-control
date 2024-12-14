@@ -13,9 +13,8 @@ class TransactionFactory extends Factory
     {
         return [
             'amount' => fake()->randomFloat(2, 20, 5000),
-            'type' => fake()->randomElement(['income', 'expense']),
-            'date' => fake()->date(),
-            'description' => fake()->realText()
+            'date_time' => fake()->dateTime(),
+            'title' => fake()->title()
         ];
     }
 }
