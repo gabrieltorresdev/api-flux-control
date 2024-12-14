@@ -13,4 +13,5 @@ interface ITransactionRepository
     /** @return LengthAwarePaginator<Transaction> */
     public function findAll(?string $search, ?string $categoryId, ?TransactionCategoryType $type, ?Carbon $startDate, ?Carbon $endDate, int $perPage): LengthAwarePaginator;
     public function create(string $categoryId, string $title, float $amount, Carbon $dateTime): Transaction;
+    public function getSummary(?Carbon $startDate, ?Carbon $endDate): array;
 }

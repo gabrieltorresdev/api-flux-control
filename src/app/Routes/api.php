@@ -19,6 +19,8 @@ Route::group([
     ], function () {
         Route::get('', [TransactionController::class, 'index']);
         Route::post('', [TransactionController::class, 'create']);
+
+        Route::get('summary', [TransactionController::class, 'getSummary']);
     });
 
     Route::group([

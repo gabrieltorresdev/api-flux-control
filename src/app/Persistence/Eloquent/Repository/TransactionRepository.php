@@ -56,4 +56,23 @@ readonly class TransactionRepository implements ITransactionRepository
 
         return TransactionMapper::fromEloquent($result);
     }
+
+    public function getSummary(?Carbon $startDate, ?Carbon $endDate): array
+    {
+        return $this->model::query()
+            ->with('category')
+            ->when($startDate && $endDate, function ($query) use ($startDate, $endDate) {
+                $query->whereBetween('date_time', [$startDate, $endDate]);
+            })
+            ->get()
+            ->reduce(function ($result, Model $item) {
+               $result[$item->category->type->value] += $item['amount'];
+               $result['total'] = $result['income'] + $result['expense'];
+               return $result;
+            }, [
+                'income' => 0,
+                'expense' => 0,
+                'total' => 0,
+            ]);
+    }
 }
