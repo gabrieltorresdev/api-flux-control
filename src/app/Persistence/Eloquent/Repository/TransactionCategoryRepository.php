@@ -23,6 +23,7 @@ readonly class TransactionCategoryRepository implements ITransactionCategoryRepo
                 $query->where('type', '=', "$type->value");
             })
             ->get()
+            ->map(fn($item) => TransactionCategoryMapper::fromEloquent($item))
             ->toArray();
     }
 
