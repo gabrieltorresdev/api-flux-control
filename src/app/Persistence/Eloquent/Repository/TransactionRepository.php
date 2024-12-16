@@ -36,8 +36,10 @@ readonly class TransactionRepository implements ITransactionRepository
                 $query->whereRelation('category', 'type', '=', $type);
             })
             ->when($startDate && $endDate, function ($query) use ($startDate, $endDate) {
-                $query->whereBetween('date_time', [$startDate, $endDate]);
+                $query->whereDate('date_time','>=', $startDate)
+                    ->whereDate('date_time','<=', $endDate);
             })
+            ->latest('date_time')
             ->paginate(min($perPage, 100))
             ->through(fn ($transaction) => TransactionMapper::fromEloquent($transaction));
     }
@@ -62,7 +64,8 @@ readonly class TransactionRepository implements ITransactionRepository
         return $this->model::query()
             ->with('category')
             ->when($startDate && $endDate, function ($query) use ($startDate, $endDate) {
-                $query->whereBetween('date_time', [$startDate, $endDate]);
+                $query->whereDate('date_time','>=', $startDate)
+                    ->whereDate('date_time','<=', $endDate);
             })
             ->get()
             ->reduce(function ($result, Model $item) {
