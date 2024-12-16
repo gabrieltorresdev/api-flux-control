@@ -13,10 +13,9 @@ return new class extends Migration
             $table->dateTime('date_time')->nullable()->after("type");
         });
 
-        DB::table('transactions')->each(function ($item) {
-            $dateTime = \Carbon\Carbon::parse($item->date)->toDateTimeString();
-            $item->update(['date_time' => $dateTime]);
-        });
+        DB::table('transactions')->update([
+            'date_time' => DB::raw("TO_TIMESTAMP(date, 'YYYY-MM-DD')")
+        ]);
 
         Schema::table('transactions', function (Blueprint $table) {
             $table->dropColumn('date');
