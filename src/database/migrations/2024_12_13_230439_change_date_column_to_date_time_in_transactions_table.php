@@ -14,7 +14,7 @@ return new class extends Migration
         });
 
         DB::table('transactions')->update([
-            'date_time' => DB::raw('DATETIME(`date`)')
+            'date_time' => 'date'
         ]);
 
         Schema::table('transactions', function (Blueprint $table) {
