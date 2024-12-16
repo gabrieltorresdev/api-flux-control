@@ -10,16 +10,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('transactions', function (Blueprint $table) {
-            $table->dateTime('date_time')->nullable()->after("type");
-        });
-
-        DB::table('transactions')->update([
-            'date_time' => DB::raw("TO_TIMESTAMP(date, 'YYYY-MM-DD')")
-        ]);
-
-        Schema::table('transactions', function (Blueprint $table) {
             $table->dropColumn('date');
-            $table->dateTime('date_time')->after("type")->change();
+            $table->dateTime('date_time')->after("type");
         });
     }
 };
