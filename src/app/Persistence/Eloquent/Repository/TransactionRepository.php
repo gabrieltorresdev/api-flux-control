@@ -12,8 +12,7 @@ use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 readonly class TransactionRepository implements ITransactionRepository
 {
-    public function __construct(private Model $model)
-    {}
+    public function __construct(private Model $model) {}
 
     public function findAll(
         ?string $search,
@@ -22,8 +21,7 @@ readonly class TransactionRepository implements ITransactionRepository
         ?Carbon $startDate,
         ?Carbon $endDate,
         int $perPage
-    ): LengthAwarePaginator
-    {
+    ): LengthAwarePaginator {
         return $this->model::query()
             ->with('category')
             ->when($search, function ($query) use ($search) {
@@ -36,12 +34,12 @@ readonly class TransactionRepository implements ITransactionRepository
                 $query->whereRelation('category', 'type', '=', $type);
             })
             ->when($startDate && $endDate, function ($query) use ($startDate, $endDate) {
-                $query->whereDate('date_time','>=', $startDate)
-                    ->whereDate('date_time','<=', $endDate);
+                $query->whereDate('date_time', '>=', $startDate)
+                    ->whereDate('date_time', '<=', $endDate);
             })
             ->latest('date_time')
             ->paginate(min($perPage, 100))
-            ->through(fn ($transaction) => TransactionMapper::fromEloquent($transaction));
+            ->through(fn($transaction) => TransactionMapper::fromEloquent($transaction));
     }
 
 
@@ -64,18 +62,39 @@ readonly class TransactionRepository implements ITransactionRepository
         return $this->model::query()
             ->with('category')
             ->when($startDate && $endDate, function ($query) use ($startDate, $endDate) {
-                $query->whereDate('date_time','>=', $startDate)
-                    ->whereDate('date_time','<=', $endDate);
+                $query->whereDate('date_time', '>=', $startDate)
+                    ->whereDate('date_time', '<=', $endDate);
             })
             ->get()
             ->reduce(function ($result, Model $item) {
-               $result[$item->category->type->value] += $item['amount'];
-               $result['total'] = $result['income'] + $result['expense'];
-               return $result;
+                $result[$item->category->type->value] += $item['amount'];
+                $result['total'] = $result['income'] + $result['expense'];
+                return $result;
             }, [
                 'income' => 0,
                 'expense' => 0,
                 'total' => 0,
             ]);
+    }
+
+    public function update(string $id, string $categoryId, string $title, float $amount, Carbon $dateTime): Transaction
+    {
+        $transaction = $this->model::query()->findOrFail($id);
+
+        $transaction->update([
+            'title' => $title,
+            'amount' => $amount,
+            'date_time' => $dateTime,
+            'category_id' => $categoryId,
+        ]);
+
+        $transaction->load('category');
+
+        return TransactionMapper::fromEloquent($transaction);
+    }
+
+    public function delete(string $id): void
+    {
+        $this->model::query()->findOrFail($id)->delete();
     }
 }

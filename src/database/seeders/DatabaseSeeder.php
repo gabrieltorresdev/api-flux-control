@@ -12,15 +12,15 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         UserModel::factory(5)->create();
-        $categories = TransactionCategoryModel::factory(5)->create();
-        TransactionModel::factory(20)
-            ->state(function () use ($categories) {
-                $category = $categories->random();
-                return [
-                    'category_id' => $category->id
-                ];
-            })
-            ->create();
+        $categories = TransactionCategoryModel::factory(10)->create();
+//        TransactionModel::factory(100)
+//            ->state(function () use ($categories) {
+//                $category = $categories->random();
+//                return [
+//                    'category_id' => $category->id
+//                ];
+//            })
+//            ->create();
     }
 
     private function seedRelationExample()

@@ -10,4 +10,6 @@ interface ITransactionCategoryRepository
     /** @return TransactionCategory[] */
     public function index(?string $name, ?TransactionCategoryType $type): array;
     public function create(string $name, TransactionCategoryType $type): TransactionCategory;
+    public function findByName(string $name): ?TransactionCategory;
+    public function delete(string $id): void;
 }

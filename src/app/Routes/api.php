@@ -19,6 +19,8 @@ Route::group([
     ], function () {
         Route::get('', [TransactionController::class, 'index']);
         Route::post('', [TransactionController::class, 'create']);
+        Route::put('/{id}', [TransactionController::class, 'update']);
+        Route::delete('/{id}', [TransactionController::class, 'delete']);
 
         Route::get('summary', [TransactionController::class, 'getSummary']);
     });
@@ -28,5 +30,7 @@ Route::group([
     ], function () {
         Route::get('', [TransactionCategoryController::class, 'index']);
         Route::post('', [TransactionCategoryController::class, 'create']);
+        Route::get('/by-name/{name}', [TransactionCategoryController::class, 'getByName']);
+        Route::delete('/{id}', [TransactionCategoryController::class, 'delete']);
     });
 });

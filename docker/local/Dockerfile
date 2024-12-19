@@ -8,6 +8,7 @@ RUN apk add --no-cache \
     icu-dev \
     libpng-dev \
     libzip-dev \
+    libpq-dev \
     zlib-dev \
     autoconf \
     linux-headers \
@@ -16,7 +17,7 @@ RUN apk add --no-cache \
     curl \
     supervisor
 
-RUN docker-php-ext-install gd intl mbstring pcntl pdo_mysql zip bcmath
+RUN docker-php-ext-install gd intl mbstring pcntl pdo_mysql zip bcmath pdo_pgsql
 
 RUN pecl install xdebug-3.3.2
 RUN docker-php-ext-enable xdebug

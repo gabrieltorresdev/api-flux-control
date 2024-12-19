@@ -13,7 +13,7 @@ class TransactionFactory extends Factory
     {
         return [
             'amount' => fake()->randomFloat(2, 20, 5000),
-            'date_time' => fake()->dateTime(),
+            'date_time' => fake()->dateTimeBetween('2024-12-01', now()),
             'title' => fake()->title()
         ];
     }
