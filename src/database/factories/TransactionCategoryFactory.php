@@ -13,7 +13,8 @@ class TransactionCategoryFactory extends Factory
     {
         return [
             "name" => fake()->slug(2),
-            "type" => fake()->randomElement(['income', 'expense'])
+            "type" => fake()->randomElement(['income', 'expense']),
+            "is_default" => false
         ];
     }
 }

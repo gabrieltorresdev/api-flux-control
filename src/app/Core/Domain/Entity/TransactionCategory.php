@@ -9,7 +9,7 @@ class TransactionCategory extends Entity
     public function __construct(
         public string $id,
         public string $name,
-        public TransactionCategoryType $type
-    ) {
-    }
+        public TransactionCategoryType $type,
+        public bool $is_default = false
+    ) {}
 }

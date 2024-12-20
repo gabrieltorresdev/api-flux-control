@@ -17,7 +17,8 @@ class TransactionCategoryMapper implements Mapper
         return new Entity(
             id: $model->id,
             name: $model->name,
-            type: $model->type
+            type: $model->type,
+            is_default: $model->is_default
         );
     }
 }

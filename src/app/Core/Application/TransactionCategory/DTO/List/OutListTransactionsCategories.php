@@ -10,4 +10,5 @@ class OutListTransactionsCategories extends ObjectAbstract
     public string $id;
     public string $name;
     public TransactionCategoryType $type;
+    public bool $is_default;
 }
