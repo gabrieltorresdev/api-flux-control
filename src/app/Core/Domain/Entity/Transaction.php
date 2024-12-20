@@ -13,8 +13,7 @@ class Transaction extends Entity
         public string $title,
         public float $amount,
         public Carbon $dateTime,
-    ) {
-    }
+    ) {}
 
     public function setCategory(TransactionCategory $category): void
     {

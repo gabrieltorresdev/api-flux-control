@@ -32,5 +32,6 @@ Route::group([
         Route::post('', [TransactionCategoryController::class, 'create']);
         Route::get('/by-name/{name}', [TransactionCategoryController::class, 'getByName']);
         Route::delete('/{id}', [TransactionCategoryController::class, 'delete']);
+        Route::put('/{id}', [TransactionCategoryController::class, 'update']);
     });
 });

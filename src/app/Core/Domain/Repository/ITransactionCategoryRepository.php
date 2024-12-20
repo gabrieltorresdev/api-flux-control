@@ -12,4 +12,5 @@ interface ITransactionCategoryRepository
     public function create(string $name, TransactionCategoryType $type): TransactionCategory;
     public function findByName(string $name): ?TransactionCategory;
     public function delete(string $id): void;
+    public function update(string $id, string $name, TransactionCategoryType $type): TransactionCategory;
 }

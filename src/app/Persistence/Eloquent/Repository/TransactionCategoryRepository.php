@@ -7,6 +7,7 @@ use App\Core\Domain\Enum\TransactionCategoryType;
 use App\Core\Domain\Repository\ITransactionCategoryRepository;
 use App\Mapper\TransactionCategoryMapper;
 use App\Persistence\Eloquent\Model\TransactionCategoryModel as Model;
+use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 readonly class TransactionCategoryRepository implements ITransactionCategoryRepository
@@ -45,12 +46,37 @@ readonly class TransactionCategoryRepository implements ITransactionCategoryRepo
 
     public function delete(string $id): void
     {
+        $category = $this->model::query()->findOrFail($id);
+
+        if ($category->is_default) {
+            throw new \RuntimeException('Cannot delete default categories');
+        }
+
+        $defaultCategory = $this->model::query()
+            ->where('type', $category->type)
+            ->where('is_default', true)
+            ->first();
+
+        if (!$defaultCategory) {
+            throw new \RuntimeException('Default category not found');
+        }
+
+        DB::transaction(function () use ($category, $defaultCategory) {
+            $category->transactions()->update(['category_id' => $defaultCategory->id]);
+            $category->delete();
+        });
+    }
+
+    public function update(string $id, string $name, TransactionCategoryType $type): TransactionCategory
+    {
         $result = $this->model::query()->find($id);
 
         if (!$result) {
             throw new NotFoundHttpException('Transaction Category not found!');
         }
 
-        $result->delete();
+        $result->update(compact('name', 'type'));
+
+        return TransactionCategoryMapper::fromEloquent($result);
     }
 }

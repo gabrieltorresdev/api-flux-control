@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class TransactionCategoryModel extends Model
@@ -23,7 +24,13 @@ class TransactionCategoryModel extends Model
 
     protected $casts = [
         'type' => TransactionCategoryType::class,
+        'is_default' => 'boolean',
     ];
+
+    public function transactions(): HasMany
+    {
+        return $this->hasMany(TransactionModel::class, 'category_id');
+    }
 
     protected static function newFactory(): Factory
     {
