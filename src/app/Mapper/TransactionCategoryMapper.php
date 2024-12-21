@@ -18,7 +18,7 @@ class TransactionCategoryMapper implements Mapper
             id: $model->id,
             name: $model->name,
             type: $model->type,
-            is_default: $model->is_default
+            is_default: $model->is_default ?? false
         );
     }
 }

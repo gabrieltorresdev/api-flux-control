@@ -23,6 +23,9 @@ readonly class TransactionCategoryRepository implements ITransactionCategoryRepo
             ->when($type, function ($query) use ($type) {
                 $query->where('type', '=', "$type->value");
             })
+            ->orderBy('is_default', 'desc')
+            ->orderBy('type', 'asc')
+            ->orderBy('name', 'asc')
             ->get()
             ->map(fn($item) => TransactionCategoryMapper::fromEloquent($item))
             ->toArray();
