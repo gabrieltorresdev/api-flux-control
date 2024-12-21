@@ -68,7 +68,7 @@ readonly class TransactionRepository implements ITransactionRepository
             ->get()
             ->reduce(function ($result, Model $item) {
                 $result[$item->category->type->value] += $item['amount'];
-                $result['total'] = $result['income'] + $result['expense'];
+                $result['total'] = $result['income'] - $result['expense'];
                 return $result;
             }, [
                 'income' => 0,
