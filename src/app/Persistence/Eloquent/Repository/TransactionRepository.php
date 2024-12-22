@@ -25,7 +25,7 @@ readonly class TransactionRepository implements ITransactionRepository
         return $this->model::query()
             ->with('category')
             ->when($search, function ($query) use ($search) {
-                $query->where('name', 'like', '%' . $search . '%');
+                $query->where('title', 'like', '%' . $search . '%');
             })
             ->when($categoryId, function ($query) use ($categoryId) {
                 $query->where('category_id', '=', $categoryId);
