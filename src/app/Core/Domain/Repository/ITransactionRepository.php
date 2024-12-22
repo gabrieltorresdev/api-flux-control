@@ -15,5 +15,5 @@ interface ITransactionRepository
     public function create(string $categoryId, string $title, float $amount, Carbon $dateTime): Transaction;
     public function update(string $id, string $categoryId, string $title, float $amount, Carbon $dateTime): Transaction;
     public function delete(string $id): void;
-    public function getSummary(?Carbon $startDate, ?Carbon $endDate): array;
+    public function getSummary(?Carbon $startDate, ?Carbon $endDate, ?string $categoryId = null, ?string $search = null): array;
 }

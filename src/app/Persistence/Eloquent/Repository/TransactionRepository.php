@@ -57,13 +57,19 @@ readonly class TransactionRepository implements ITransactionRepository
         return TransactionMapper::fromEloquent($result);
     }
 
-    public function getSummary(?Carbon $startDate, ?Carbon $endDate): array
+    public function getSummary(?Carbon $startDate, ?Carbon $endDate, ?string $categoryId = null, ?string $search = null): array
     {
         return $this->model::query()
             ->with('category')
+            ->when($search, function ($query) use ($search) {
+                $query->where('title', 'like', '%' . $search . '%');
+            })
             ->when($startDate && $endDate, function ($query) use ($startDate, $endDate) {
                 $query->whereDate('date_time', '>=', $startDate)
                     ->whereDate('date_time', '<=', $endDate);
+            })
+            ->when($categoryId, function ($query) use ($categoryId) {
+                $query->where('category_id', $categoryId);
             })
             ->get()
             ->reduce(function ($result, Model $item) {

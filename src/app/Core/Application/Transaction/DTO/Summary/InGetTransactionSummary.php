@@ -9,4 +9,6 @@ class InGetTransactionSummary extends ObjectAbstract
 {
     public ?Carbon $startDate;
     public ?Carbon $endDate;
+    public ?string $categoryId;
+    public ?string $search;
 }

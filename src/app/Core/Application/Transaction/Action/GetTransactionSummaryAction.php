@@ -9,8 +9,7 @@ use Exception;
 
 readonly class GetTransactionSummaryAction
 {
-    public function __construct(private ITransactionRepository $repository)
-    {}
+    public function __construct(private ITransactionRepository $repository) {}
 
     /**
      * @throws Exception
@@ -19,7 +18,9 @@ readonly class GetTransactionSummaryAction
     {
         return OutGetTransactionSummary::from($this->repository->getSummary(
             $data->startDate,
-            $data->endDate
+            $data->endDate,
+            $data->categoryId,
+            $data->search
         ));
     }
 }
