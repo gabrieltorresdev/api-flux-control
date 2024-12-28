@@ -10,6 +10,7 @@ class Category extends Entity
         public string $id,
         public string $name,
         public CategoryType $type,
+        public ?string $icon = null,
         public bool $is_default = false
     ) {}
 }

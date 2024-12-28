@@ -16,7 +16,8 @@ readonly class CreateCategoryAction
     {
         return OutCreateCategory::from($this->categoryRepository->create(
             $data->name,
-            $data->type
+            $data->type,
+            $data->icon
         ));
     }
 }

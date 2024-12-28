@@ -18,7 +18,8 @@ readonly class UpdateCategoryAction
             $this->categoryRepository->update(
                 $data->id,
                 $data->name,
-                $data->type
+                $data->type,
+                $data->icon
             )
         );
     }

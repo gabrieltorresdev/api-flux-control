@@ -31,9 +31,9 @@ readonly class CategoryRepository implements ICategoryRepository
             ->toArray();
     }
 
-    public function create(string $name, CategoryType $type): Category
+    public function create(string $name, CategoryType $type, string $icon): Category
     {
-        $result = $this->model::query()->create(compact(['name', 'type']));
+        $result = $this->model::query()->create(compact(['name', 'type', 'icon']));
 
         return CategoryMapper::fromEloquent($result);
     }
@@ -70,7 +70,7 @@ readonly class CategoryRepository implements ICategoryRepository
         });
     }
 
-    public function update(string $id, string $name, CategoryType $type): Category
+    public function update(string $id, string $name, CategoryType $type, string $icon): Category
     {
         $result = $this->model::query()->find($id);
 
@@ -78,7 +78,7 @@ readonly class CategoryRepository implements ICategoryRepository
             throw new NotFoundHttpException('Category not found!');
         }
 
-        $result->update(compact('name', 'type'));
+        $result->update(compact('name', 'type', 'icon'));
 
         return CategoryMapper::fromEloquent($result);
     }

@@ -17,7 +17,8 @@ class UpdateCategoryRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', Rule::unique('categories', 'name')->ignore($this->route('id'))],
-            'type' => ['required', 'string', Rule::enum(CategoryType::class)]
+            'type' => ['required', 'string', Rule::enum(CategoryType::class)],
+            'icon' => ['nullable', 'string']
         ];
     }
 }

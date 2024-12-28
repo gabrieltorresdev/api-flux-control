@@ -9,6 +9,7 @@ class OutListCategory extends ObjectAbstract
 {
     public string $id;
     public string $name;
+    public ?string $icon;
     public CategoryType $type;
     public bool $is_default;
 }

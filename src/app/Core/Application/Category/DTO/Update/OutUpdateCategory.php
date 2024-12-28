@@ -10,5 +10,6 @@ class OutUpdateCategory extends ObjectAbstract
     public string $id;
     public string $name;
     public CategoryType $type;
+    public ?string $icon;
     public bool $is_default;
 }
