@@ -5,6 +5,7 @@ services:
       dockerfile: ./docker/local/Dockerfile
     container_name: app-flux_control_api
     tty: true
+    restart: always
     extra_hosts:
       - "host.docker.internal:host-gateway"
     environment:
