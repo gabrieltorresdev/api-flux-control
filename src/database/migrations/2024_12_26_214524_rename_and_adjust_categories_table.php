@@ -10,7 +10,7 @@ return new class extends Migration {
         Schema::rename('transactions_categories', 'categories');
 
         Schema::table('categories', function (Blueprint $table) {
-            $table->string('icon', 10)->comment('emoji unicode')->nullable()->after('is_default');
+            $table->string('icon', 100)->comment('emoji unicode')->nullable()->after('is_default');
         });
     }
 
