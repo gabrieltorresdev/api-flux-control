@@ -2,14 +2,14 @@
 
 namespace App\Core\Domain\Entity;
 
-use App\Core\Domain\Enum\TransactionCategoryType;
+use App\Core\Domain\Enum\CategoryType;
 
-class TransactionCategory extends Entity
+class Category extends Entity
 {
     public function __construct(
         public string $id,
         public string $name,
-        public TransactionCategoryType $type,
+        public CategoryType $type,
         public bool $is_default = false
     ) {}
 }

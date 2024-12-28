@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Core\Application\Transaction\DTO\Update;
+namespace App\Core\Application\Category\DTO\Create;
 
 use App\Core\Domain\Enum\CategoryType;
 use App\Shared\ObjectAbstract;
 
-class OutUpdateTransactionCategory extends ObjectAbstract
+class OutCreateCategory extends ObjectAbstract
 {
     public string $id;
     public string $name;

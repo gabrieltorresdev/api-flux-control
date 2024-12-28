@@ -2,19 +2,19 @@
 
 namespace App\Persistence\Eloquent\Repository;
 
-use App\Core\Domain\Entity\TransactionCategory;
-use App\Core\Domain\Enum\TransactionCategoryType;
-use App\Core\Domain\Repository\ITransactionCategoryRepository;
-use App\Mapper\TransactionCategoryMapper;
-use App\Persistence\Eloquent\Model\TransactionCategoryModel as Model;
+use App\Core\Domain\Entity\Category;
+use App\Core\Domain\Enum\CategoryType;
+use App\Core\Domain\Repository\ICategoryRepository;
+use App\Mapper\CategoryMapper;
+use App\Persistence\Eloquent\Model\CategoryModel as Model;
 use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-readonly class TransactionCategoryRepository implements ITransactionCategoryRepository
+readonly class CategoryRepository implements ICategoryRepository
 {
     public function __construct(private Model $model) {}
 
-    public function index(?string $name, ?TransactionCategoryType $type): array
+    public function index(?string $name, ?CategoryType $type): array
     {
         return $this->model::query()
             ->when($name, function ($query) use ($name) {
@@ -27,24 +27,24 @@ readonly class TransactionCategoryRepository implements ITransactionCategoryRepo
             ->orderBy('type', 'asc')
             ->orderBy('name', 'asc')
             ->get()
-            ->map(fn($item) => TransactionCategoryMapper::fromEloquent($item))
+            ->map(fn($item) => CategoryMapper::fromEloquent($item))
             ->toArray();
     }
 
-    public function create(string $name, TransactionCategoryType $type): TransactionCategory
+    public function create(string $name, CategoryType $type): Category
     {
         $result = $this->model::query()->create(compact(['name', 'type']));
 
-        return TransactionCategoryMapper::fromEloquent($result);
+        return CategoryMapper::fromEloquent($result);
     }
 
-    public function findByName(string $name): ?TransactionCategory
+    public function findByName(string $name): ?Category
     {
         $result = $this->model::query()
             ->where('name', '=', $name)
             ->first();
 
-        return $result ? TransactionCategoryMapper::fromEloquent($result) : null;
+        return $result ? CategoryMapper::fromEloquent($result) : null;
     }
 
     public function delete(string $id): void
@@ -70,16 +70,16 @@ readonly class TransactionCategoryRepository implements ITransactionCategoryRepo
         });
     }
 
-    public function update(string $id, string $name, TransactionCategoryType $type): TransactionCategory
+    public function update(string $id, string $name, CategoryType $type): Category
     {
         $result = $this->model::query()->find($id);
 
         if (!$result) {
-            throw new NotFoundHttpException('Transaction Category not found!');
+            throw new NotFoundHttpException('Category not found!');
         }
 
         $result->update(compact('name', 'type'));
 
-        return TransactionCategoryMapper::fromEloquent($result);
+        return CategoryMapper::fromEloquent($result);
     }
 }

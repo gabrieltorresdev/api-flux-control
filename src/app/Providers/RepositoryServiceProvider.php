@@ -2,9 +2,9 @@
 
 namespace App\Providers;
 
-use App\Core\Domain\Repository\ITransactionCategoryRepository;
+use App\Core\Domain\Repository\ICategoryRepository;
 use App\Core\Domain\Repository\ITransactionRepository;
-use App\Persistence\Eloquent\Repository\TransactionCategoryRepository;
+use App\Persistence\Eloquent\Repository\CategoryRepository;
 use App\Persistence\Eloquent\Repository\TransactionRepository;
 use App\Persistence\Eloquent\Repository\UserRepository;
 use App\Core\Domain\Repository\IUserRepository;
@@ -15,7 +15,7 @@ class RepositoryServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->app->singleton(IUserRepository::class, UserRepository::class);
-        $this->app->singleton(ITransactionCategoryRepository::class,  TransactionCategoryRepository::class);
-        $this->app->singleton(ITransactionRepository::class,  TransactionRepository::class);
+        $this->app->singleton(ICategoryRepository::class, CategoryRepository::class);
+        $this->app->singleton(ITransactionRepository::class, TransactionRepository::class);
     }
 }

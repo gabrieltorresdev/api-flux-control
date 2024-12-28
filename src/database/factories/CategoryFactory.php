@@ -2,12 +2,12 @@
 
 namespace Database\Factories;
 
-use App\Persistence\Eloquent\Model\TransactionCategoryModel;
+use App\Persistence\Eloquent\Model\CategoryModel;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class TransactionCategoryFactory extends Factory
+class CategoryFactory extends Factory
 {
-    protected $model = TransactionCategoryModel::class;
+    protected $model = CategoryModel::class;
 
     public function definition(): array
     {

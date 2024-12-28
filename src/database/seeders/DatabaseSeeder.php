@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
-use App\Core\Domain\Enum\TransactionCategoryType;
-use App\Persistence\Eloquent\Model\TransactionCategoryModel;
+use App\Core\Domain\Enum\CategoryType;
+use App\Persistence\Eloquent\Model\CategoryModel;
 use App\Persistence\Eloquent\Model\TransactionModel;
 use App\Persistence\Eloquent\Model\UserModel;
 use Illuminate\Database\Seeder;
@@ -14,15 +14,15 @@ class DatabaseSeeder extends Seeder
     {
         UserModel::factory(5)->create();
 
-        TransactionCategoryModel::create([
+        CategoryModel::create([
             'name' => 'Entrada',
-            'type' => TransactionCategoryType::INCOME,
+            'type' => CategoryType::INCOME,
             'is_default' => true
         ]);
 
-        TransactionCategoryModel::create([
+        CategoryModel::create([
             'name' => 'Saída',
-            'type' => TransactionCategoryType::EXPENSE,
+            'type' => CategoryType::EXPENSE,
             'is_default' => true
         ]);
     }

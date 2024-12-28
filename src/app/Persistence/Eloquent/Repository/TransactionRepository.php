@@ -3,7 +3,7 @@
 namespace App\Persistence\Eloquent\Repository;
 
 use App\Core\Domain\Entity\Transaction;
-use App\Core\Domain\Enum\TransactionCategoryType;
+use App\Core\Domain\Enum\CategoryType;
 use App\Core\Domain\Repository\ITransactionRepository;
 use App\Mapper\TransactionMapper;
 use App\Persistence\Eloquent\Model\TransactionModel as Model;
@@ -17,7 +17,7 @@ readonly class TransactionRepository implements ITransactionRepository
     public function findAll(
         ?string $search,
         ?string $categoryId,
-        ?TransactionCategoryType $type,
+        ?CategoryType $type,
         ?Carbon $startDate,
         ?Carbon $endDate,
         int $perPage

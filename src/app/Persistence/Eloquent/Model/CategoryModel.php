@@ -2,8 +2,8 @@
 
 namespace App\Persistence\Eloquent\Model;
 
-use App\Core\Domain\Enum\TransactionCategoryType;
-use Database\Factories\TransactionCategoryFactory;
+use App\Core\Domain\Enum\CategoryType;
+use Database\Factories\CategoryFactory;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -11,11 +11,11 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class TransactionCategoryModel extends Model
+class CategoryModel extends Model
 {
     use HasFactory, HasUuids, SoftDeletes;
 
-    protected $table = 'transactions_categories';
+    protected $table = 'categories';
     protected $guarded = [
         'created_at',
         'updated_at',
@@ -23,7 +23,7 @@ class TransactionCategoryModel extends Model
     ];
 
     protected $casts = [
-        'type' => TransactionCategoryType::class,
+        'type' => CategoryType::class,
         'is_default' => 'boolean',
     ];
 
@@ -34,6 +34,6 @@ class TransactionCategoryModel extends Model
 
     protected static function newFactory(): Factory
     {
-        return TransactionCategoryFactory::new();
+        return CategoryFactory::new();
     }
 }

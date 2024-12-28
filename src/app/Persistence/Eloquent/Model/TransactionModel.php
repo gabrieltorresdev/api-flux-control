@@ -30,6 +30,6 @@ class TransactionModel extends Model
 
     public function category(): BelongsTo
     {
-        return $this->belongsTo(TransactionCategoryModel::class);
+        return $this->belongsTo(CategoryModel::class);
     }
 }

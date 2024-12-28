@@ -2,7 +2,8 @@
 
 namespace App\Core\Domain\Enum;
 
-enum TransactionCategoryType: string {
+enum CategoryType: string
+{
     case EXPENSE = 'expense';
     case INCOME = 'income';
 }

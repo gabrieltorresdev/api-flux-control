@@ -2,10 +2,10 @@
 
 namespace App\Mapper;
 
-use App\Core\Domain\Entity\TransactionCategory as Entity;
-use App\Persistence\Eloquent\Model\TransactionCategoryModel as Model;
+use App\Core\Domain\Entity\Category as Entity;
+use App\Persistence\Eloquent\Model\CategoryModel as Model;
 
-class TransactionCategoryMapper implements Mapper
+class CategoryMapper implements Mapper
 {
     public static function fromArray(array|object $data): Entity
     {

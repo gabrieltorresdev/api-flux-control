@@ -12,6 +12,6 @@ class UserController extends Controller
     {
         $dados = $action->execute();
 
-        return $this->jsonResponse(200, 'Users returned successfully!', $dados);
+        return $this->ok('Users returned successfully!', $dados);
     }
 }
