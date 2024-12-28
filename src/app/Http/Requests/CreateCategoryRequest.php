@@ -18,7 +18,7 @@ class CreateCategoryRequest extends FormRequest
         return [
             'name' => ['required', 'string', 'unique:categories,name'],
             'type' => ['required', 'string', Rule::enum(CategoryType::class)],
-            'icon' => ['nullable', 'string']
+            'icon' => ['nullable', 'string', 'max:100']
         ];
     }
 }

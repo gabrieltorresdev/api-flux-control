@@ -9,7 +9,7 @@ interface ICategoryRepository
 {
     /** @return Category[] */
     public function index(?string $name, ?CategoryType $type): array;
-    public function create(string $name, CategoryType $type, string $icon): Category;
+    public function create(string $name, CategoryType $type, ?string $icon): Category;
     public function findByName(string $name): ?Category;
     public function delete(string $id): void;
     public function update(string $id, string $name, CategoryType $type, string $icon): Category;

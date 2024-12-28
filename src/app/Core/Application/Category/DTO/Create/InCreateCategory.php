@@ -9,5 +9,5 @@ class InCreateCategory extends ObjectAbstract
 {
     public string $name;
     public CategoryType $type;
-    public string $icon;
+    public ?string $icon;
 }

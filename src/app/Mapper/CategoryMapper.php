@@ -18,6 +18,7 @@ class CategoryMapper implements Mapper
             id: $model->id,
             name: $model->name,
             type: $model->type,
+            icon: $model->icon,
             is_default: $model->is_default ?? false
         );
     }

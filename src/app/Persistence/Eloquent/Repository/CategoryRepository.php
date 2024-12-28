@@ -31,7 +31,7 @@ readonly class CategoryRepository implements ICategoryRepository
             ->toArray();
     }
 
-    public function create(string $name, CategoryType $type, string $icon): Category
+    public function create(string $name, CategoryType $type, ?string $icon): Category
     {
         $result = $this->model::query()->create(compact(['name', 'type', 'icon']));
 
