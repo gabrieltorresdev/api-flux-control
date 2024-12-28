@@ -6,7 +6,7 @@ use Carbon\Carbon;
 
 class Transaction extends Entity
 {
-    public TransactionCategory $category;
+    public Category $category;
 
     public function __construct(
         public string $id,
@@ -15,7 +15,7 @@ class Transaction extends Entity
         public Carbon $dateTime,
     ) {}
 
-    public function setCategory(TransactionCategory $category): void
+    public function setCategory(Category $category): void
     {
         $this->category = $category;
     }
