@@ -22,7 +22,7 @@ class TransactionMapper implements Mapper
         );
 
         if ($model->relationLoaded('category')) {
-            $entity->setCategory(TransactionCategoryMapper::fromEloquent($model->category));
+            $entity->setCategory(CategoryMapper::fromEloquent($model->category));
         }
 
         return $entity;
