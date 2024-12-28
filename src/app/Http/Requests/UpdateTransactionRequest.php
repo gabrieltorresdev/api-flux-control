@@ -14,7 +14,7 @@ class UpdateTransactionRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'categoryId' => ['required', 'uuid', 'exists:transactions_categories,id'],
+            'categoryId' => ['required', 'uuid', 'exists:categories,id'],
             'title' => ['string', 'max:255'],
             'amount' => ['required', 'numeric', 'gt:0'],
             'dateTime' => ['required', 'date', 'before:tomorrow'],
