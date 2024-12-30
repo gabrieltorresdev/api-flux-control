@@ -25,5 +25,9 @@ class DatabaseSeeder extends Seeder
             'type' => CategoryType::EXPENSE,
             'is_default' => true
         ]);
+
+        $this->call([
+            TransactionSeeder::class,
+        ]);
     }
 }
