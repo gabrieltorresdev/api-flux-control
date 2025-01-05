@@ -12,22 +12,6 @@ class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
-        UserModel::factory(5)->create();
-
-        CategoryModel::create([
-            'name' => 'Entrada',
-            'type' => CategoryType::INCOME,
-            'is_default' => true
-        ]);
-
-        CategoryModel::create([
-            'name' => 'Saída',
-            'type' => CategoryType::EXPENSE,
-            'is_default' => true
-        ]);
-
-        $this->call([
-            TransactionSeeder::class,
-        ]);
+        //
     }
 }
