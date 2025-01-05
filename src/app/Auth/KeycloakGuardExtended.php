@@ -34,7 +34,6 @@ class KeycloakGuardExtended extends KeycloakGuard
             throw new UserNotFoundException('Unable to create user: missing required data');
         }
 
-        // Create the user with data from the token
         $this->createUserAction->execute(
             name: $this->decodedToken->name ?? $username,
             email: $this->decodedToken->email ?? $username,
