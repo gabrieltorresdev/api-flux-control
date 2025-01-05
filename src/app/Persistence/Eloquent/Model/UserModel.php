@@ -2,6 +2,7 @@
 
 namespace App\Persistence\Eloquent\Model;
 
+use App\Core\Domain\Enum\UserStatus;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -26,6 +27,7 @@ class UserModel extends Authenticatable
         'email',
         'keycloak_id',
         'username',
+        'status',
     ];
 
     /**
@@ -47,6 +49,7 @@ class UserModel extends Authenticatable
     {
         return [
             'email_verified_at' => 'datetime',
+            'status' => UserStatus::class,
         ];
     }
 

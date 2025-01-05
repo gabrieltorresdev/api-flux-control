@@ -3,6 +3,7 @@
 namespace App\Mapper;
 
 use App\Core\Domain\Entity\User as Entity;
+use App\Core\Domain\Enum\UserStatus;
 use App\Persistence\Eloquent\Model\UserModel as Model;
 
 class UserMapper implements Mapper
@@ -19,7 +20,8 @@ class UserMapper implements Mapper
             name: $model->name,
             email: $model->email,
             username: $model->username,
-            keycloakId: $model->keycloak_id
+            keycloakId: $model->keycloak_id,
+            status: UserStatus::from($model->status)
         );
     }
 }
