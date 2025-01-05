@@ -8,6 +8,7 @@ use Carbon\Carbon;
 
 class InListTransaction extends ObjectAbstract
 {
+    public string $userId;
     public ?string $search;
     public ?string $categoryId;
     public ?CategoryType $type;

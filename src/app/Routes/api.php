@@ -5,24 +5,8 @@ use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
-// Test route for Keycloak authentication
-Route::get('/auth-test', function () {
-    $token = request()->bearerToken();
-
-    return response()->json([
-        'message' => 'Successfully authenticated',
-        'token_info' => [
-            'exists' => !empty($token),
-            'length' => strlen($token ?? ''),
-        ],
-        'user' => request()->user(),
-        'request_headers' => request()->headers->all(),
-    ]);
-})->middleware('keycloak');
-
 Route::group([
     'prefix' => 'v1',
-    // 'middleware' => ['keycloak']
 ], function () {
     Route::group([
         'prefix' => 'users',
@@ -32,6 +16,7 @@ Route::group([
 
     Route::group([
         'prefix' => 'transactions',
+        'middleware' => ['auth:api']
     ], function () {
         Route::get('', [TransactionController::class, 'index']);
         Route::post('', [TransactionController::class, 'create']);
@@ -43,6 +28,7 @@ Route::group([
 
     Route::group([
         'prefix' => 'categories',
+        'middleware' => ['auth:api']
     ], function () {
         Route::get('', [CategoryController::class, 'index']);
         Route::post('', [CategoryController::class, 'create']);

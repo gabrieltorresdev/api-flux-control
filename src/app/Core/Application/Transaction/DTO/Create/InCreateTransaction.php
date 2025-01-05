@@ -7,6 +7,7 @@ use Carbon\Carbon;
 
 class InCreateTransaction extends ObjectAbstract
 {
+    public string $userId;
     public string $categoryId;
     public string $title;
     public float $amount;

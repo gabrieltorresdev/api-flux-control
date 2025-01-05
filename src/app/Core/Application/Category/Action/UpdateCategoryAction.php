@@ -16,6 +16,7 @@ readonly class UpdateCategoryAction
     {
         return OutUpdateCategory::from(
             $this->categoryRepository->update(
+                $data->userId,
                 $data->id,
                 $data->name,
                 $data->type,

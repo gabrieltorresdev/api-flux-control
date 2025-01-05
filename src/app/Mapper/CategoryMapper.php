@@ -14,12 +14,18 @@ class CategoryMapper implements Mapper
 
     public static function fromEloquent(Model $model): Entity
     {
-        return new Entity(
+        $entity = new Entity(
             id: $model->id,
             name: $model->name,
             type: $model->type,
             icon: $model->icon,
-            is_default: $model->is_default ?? false
+            isDefault: $model->is_default ?? false
         );
+
+        if ($model->relationLoaded('user')) {
+            $entity->setUser(UserMapper::fromEloquent($model->user));
+        }
+
+        return $entity;
     }
 }

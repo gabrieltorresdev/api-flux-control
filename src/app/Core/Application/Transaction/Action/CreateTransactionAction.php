@@ -9,8 +9,7 @@ use Exception;
 
 readonly class CreateTransactionAction
 {
-    public function __construct(private ITransactionRepository $repository)
-    {}
+    public function __construct(private ITransactionRepository $repository) {}
 
     /**
      * @throws Exception
@@ -18,6 +17,7 @@ readonly class CreateTransactionAction
     public function execute(InCreateTransaction $data): OutCreateTransaction
     {
         return OutCreateTransaction::from($this->repository->create(
+            $data->userId,
             $data->categoryId,
             $data->title,
             $data->amount,

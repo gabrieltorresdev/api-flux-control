@@ -7,6 +7,7 @@ use App\Shared\ObjectAbstract;
 
 class InListCategories extends ObjectAbstract
 {
+    public string $userId;
     public ?string $name;
     public ?CategoryType $type;
 }

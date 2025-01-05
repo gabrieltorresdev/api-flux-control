@@ -17,6 +17,7 @@ readonly class UpdateTransactionAction
     public function execute(InUpdateTransaction $data): OutUpdateTransaction
     {
         return OutUpdateTransaction::from($this->repository->update(
+            $data->userId,
             $data->id,
             $data->categoryId,
             $data->title,

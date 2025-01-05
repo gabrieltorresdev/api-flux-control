@@ -7,6 +7,7 @@ use App\Shared\ObjectAbstract;
 
 class InCreateCategory extends ObjectAbstract
 {
+    public string $userId;
     public string $name;
     public CategoryType $type;
     public ?string $icon;

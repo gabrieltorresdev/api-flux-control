@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use App\Core\Domain\Enum\CategoryType;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 
 class UpdateCategoryRequest extends FormRequest
@@ -16,7 +17,13 @@ class UpdateCategoryRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', 'string', Rule::unique('categories', 'name')->ignore($this->route('id'))],
+            'name' => [
+                'required',
+                'string',
+                Rule::unique('categories', 'name')
+                    ->where('user_id', Auth::id())
+                    ->ignore($this->route('id'))
+            ],
             'type' => ['required', 'string', Rule::enum(CategoryType::class)],
             'icon' => ['nullable', 'string']
         ];

@@ -15,6 +15,7 @@ readonly class TransactionRepository implements ITransactionRepository
     public function __construct(private Model $model) {}
 
     public function findAll(
+        string $userId,
         ?string $search,
         ?string $categoryId,
         ?CategoryType $type,
@@ -24,6 +25,7 @@ readonly class TransactionRepository implements ITransactionRepository
     ): LengthAwarePaginator {
         return $this->model::query()
             ->with('category')
+            ->where('user_id', $userId)
             ->when($search, function ($query) use ($search) {
                 $query->where('title', 'like', '%' . $search . '%');
             })
@@ -42,11 +44,11 @@ readonly class TransactionRepository implements ITransactionRepository
             ->through(fn($transaction) => TransactionMapper::fromEloquent($transaction));
     }
 
-
-    public function create(string $categoryId, string $title, float $amount, Carbon $dateTime): Transaction
+    public function create(string $userId, string $categoryId, string $title, float $amount, Carbon $dateTime): Transaction
     {
         $result = $this->model::query()
             ->create([
+                'user_id' => $userId,
                 'title' => $title,
                 'amount' => $amount,
                 'date_time' => $dateTime,
@@ -57,10 +59,11 @@ readonly class TransactionRepository implements ITransactionRepository
         return TransactionMapper::fromEloquent($result);
     }
 
-    public function getSummary(?Carbon $startDate, ?Carbon $endDate, ?string $categoryId = null, ?string $search = null): array
+    public function getSummary(string $userId, ?Carbon $startDate, ?Carbon $endDate, ?string $categoryId = null, ?string $search = null): array
     {
         return $this->model::query()
             ->with('category')
+            ->where('user_id', $userId)
             ->when($search, function ($query) use ($search) {
                 $query->where('title', 'like', '%' . $search . '%');
             })
@@ -83,9 +86,11 @@ readonly class TransactionRepository implements ITransactionRepository
             ]);
     }
 
-    public function update(string $id, string $categoryId, string $title, float $amount, Carbon $dateTime): Transaction
+    public function update(string $userId, string $id, string $categoryId, string $title, float $amount, Carbon $dateTime): Transaction
     {
-        $transaction = $this->model::query()->findOrFail($id);
+        $transaction = $this->model::query()
+            ->where('user_id', $userId)
+            ->findOrFail($id);
 
         $transaction->update([
             'title' => $title,
@@ -99,8 +104,11 @@ readonly class TransactionRepository implements ITransactionRepository
         return TransactionMapper::fromEloquent($transaction);
     }
 
-    public function delete(string $id): void
+    public function delete(string $userId, string $id): void
     {
-        $this->model::query()->findOrFail($id)->delete();
+        $this->model::query()
+            ->where('user_id', $userId)
+            ->findOrFail($id)
+            ->delete();
     }
 }

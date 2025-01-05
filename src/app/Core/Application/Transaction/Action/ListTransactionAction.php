@@ -12,8 +12,7 @@ readonly class ListTransactionAction
 {
     private const int DEFAULT_PER_PAGE = 15;
 
-    public function __construct(private ITransactionRepository $repository)
-    {}
+    public function __construct(private ITransactionRepository $repository) {}
 
     /**
      * @return LengthAwarePaginator<OutListTransaction>
@@ -22,12 +21,13 @@ readonly class ListTransactionAction
     public function execute(InListTransaction $data): LengthAwarePaginator
     {
         return $this->repository->findAll(
+            $data->userId,
             $data->search,
             $data->categoryId,
             $data->type,
             $data->startDate,
             $data->endDate,
             $data->perPage ?? static::DEFAULT_PER_PAGE
-        )->through(fn ($transaction) => OutListTransaction::from($transaction));
+        )->through(fn($transaction) => OutListTransaction::from($transaction));
     }
 }

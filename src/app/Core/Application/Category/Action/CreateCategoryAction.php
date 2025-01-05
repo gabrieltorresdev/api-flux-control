@@ -15,6 +15,7 @@ readonly class CreateCategoryAction
     public function execute(InCreateCategory $data): OutCreateCategory
     {
         return OutCreateCategory::from($this->categoryRepository->create(
+            $data->userId,
             $data->name,
             $data->type,
             $data->icon

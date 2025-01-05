@@ -14,9 +14,10 @@ readonly class CategoryRepository implements ICategoryRepository
 {
     public function __construct(private Model $model) {}
 
-    public function index(?string $name, ?CategoryType $type): array
+    public function index(string $userId, ?string $name, ?CategoryType $type): array
     {
         return $this->model::query()
+            ->where('user_id', $userId)
             ->when($name, function ($query) use ($name) {
                 $query->where('name', 'like', "%$name%");
             })
@@ -31,31 +32,54 @@ readonly class CategoryRepository implements ICategoryRepository
             ->toArray();
     }
 
-    public function create(string $name, CategoryType $type, ?string $icon): Category
+    public function create(string $userId, string $name, CategoryType $type, ?string $icon): Category
     {
-        $result = $this->model::query()->create(compact(['name', 'type', 'icon']));
+        $result = $this->model::query()->create([
+            'user_id' => $userId,
+            'name' => $name,
+            'type' => $type,
+            'icon' => $icon,
+            'is_default' => false
+        ]);
 
         return CategoryMapper::fromEloquent($result);
     }
 
-    public function findByName(string $name): ?Category
+    public function createDefault(string $userId, string $name, CategoryType $type): Category
+    {
+        $result = $this->model::query()->create([
+            'user_id' => $userId,
+            'name' => $name,
+            'type' => $type,
+            'icon' => null,
+            'is_default' => true
+        ]);
+
+        return CategoryMapper::fromEloquent($result);
+    }
+
+    public function findByName(string $userId, string $name): ?Category
     {
         $result = $this->model::query()
+            ->where('user_id', $userId)
             ->where('name', '=', $name)
             ->first();
 
         return $result ? CategoryMapper::fromEloquent($result) : null;
     }
 
-    public function delete(string $id): void
+    public function delete(string $userId, string $id): void
     {
-        $category = $this->model::query()->findOrFail($id);
+        $category = $this->model::query()
+            ->where('user_id', $userId)
+            ->findOrFail($id);
 
         if ($category->is_default) {
             throw new \RuntimeException('Cannot delete default categories');
         }
 
         $defaultCategory = $this->model::query()
+            ->where('user_id', $userId)
             ->where('type', $category->type)
             ->where('is_default', true)
             ->first();
@@ -70,9 +94,11 @@ readonly class CategoryRepository implements ICategoryRepository
         });
     }
 
-    public function update(string $id, string $name, CategoryType $type, string $icon): Category
+    public function update(string $userId, string $id, string $name, CategoryType $type, string $icon): Category
     {
-        $result = $this->model::query()->find($id);
+        $result = $this->model::query()
+            ->where('user_id', $userId)
+            ->find($id);
 
         if (!$result) {
             throw new NotFoundHttpException('Category not found!');

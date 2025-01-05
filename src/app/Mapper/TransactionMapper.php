@@ -25,6 +25,10 @@ class TransactionMapper implements Mapper
             $entity->setCategory(CategoryMapper::fromEloquent($model->category));
         }
 
+        if ($model->relationLoaded('user')) {
+            $entity->setUser(UserMapper::fromEloquent($model->user));
+        }
+
         return $entity;
     }
 }

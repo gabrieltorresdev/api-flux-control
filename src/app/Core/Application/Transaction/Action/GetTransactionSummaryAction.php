@@ -17,6 +17,7 @@ readonly class GetTransactionSummaryAction
     public function execute(InGetTransactionSummary $data): OutGetTransactionSummary
     {
         return OutGetTransactionSummary::from($this->repository->getSummary(
+            $data->userId,
             $data->startDate,
             $data->endDate,
             $data->categoryId,

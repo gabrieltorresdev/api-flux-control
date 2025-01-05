@@ -15,6 +15,6 @@ readonly class ListCategoriesAction
     /** @return OutListCategory[] */
     public function execute(InListCategories $data): array
     {
-        return OutListCategory::arrayOf($this->categoryRepository->index($data->name, $data->type));
+        return OutListCategory::arrayOf($this->categoryRepository->index($data->userId, $data->name, $data->type));
     }
 }
