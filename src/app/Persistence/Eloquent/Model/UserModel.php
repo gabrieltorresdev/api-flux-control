@@ -2,18 +2,17 @@
 
 namespace App\Persistence\Eloquent\Model;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use KeycloakGuard\ActingAsKeycloakUser;
 
 class UserModel extends Authenticatable
 {
-    use HasFactory, Notifiable, HasUuids;
+    use HasFactory, Notifiable, HasUuids, ActingAsKeycloakUser;
 
     protected $table = 'users';
 
@@ -25,7 +24,8 @@ class UserModel extends Authenticatable
     protected $fillable = [
         'name',
         'email',
-        'password',
+        'keycloak_id',
+        'username',
     ];
 
     /**
@@ -47,7 +47,6 @@ class UserModel extends Authenticatable
     {
         return [
             'email_verified_at' => 'datetime',
-            'password' => 'hashed',
         ];
     }
 

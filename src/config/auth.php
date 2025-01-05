@@ -68,10 +68,9 @@ return [
             'driver' => 'eloquent',
             'model' => env('AUTH_MODEL', \App\Persistence\Eloquent\Model\UserModel::class),
         ],
-
         'keycloak' => [
             'driver' => 'eloquent',
-            'model' => env('AUTH_MODEL', \App\Persistence\Eloquent\Model\UserModel::class),
+            'model' => \App\Persistence\Eloquent\Model\UserModel::class,
         ],
     ],
 

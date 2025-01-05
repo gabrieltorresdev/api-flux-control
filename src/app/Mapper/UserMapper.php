@@ -17,7 +17,9 @@ class UserMapper implements Mapper
         return new Entity(
             id: $model->id,
             name: $model->name,
-            email: $model->email
+            email: $model->email,
+            username: $model->username,
+            keycloakId: $model->keycloak_id
         );
     }
 }
