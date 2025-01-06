@@ -27,30 +27,29 @@ class KeycloakGuardExtended extends KeycloakGuard
             }
 
             $lockKey = "user_initialization_{$username}";
-            $lock = cache()->lock($lockKey, 30); // Aumentado para 30 segundos
-            $maxAttempts = 5;
-            $attempt = 0;
+            $lock = cache()->lock($lockKey, 10); // 10 seconds timeout
 
             try {
+                if ($lock->get()) {
+                    $this->initializeUserEnvironmentFromToken($credentials);
+                    return parent::validate($credentials);
+                }
+
+                // Wait for initialization to complete
+                $maxAttempts = 10;
+                $attempt = 0;
+
                 while ($attempt < $maxAttempts) {
-                    if ($lock->get()) {
-                        $this->initializeUserEnvironmentFromToken($credentials);
-                        return parent::validate($credentials);
+                    if (parent::validate($credentials)) {
+                        return true;
                     }
-
                     $attempt++;
-                    if ($attempt < $maxAttempts) {
-                        // Exponential backoff com jitter
-                        $sleepMs = min(1000 * pow(2, $attempt), 5000) + rand(100, 1000);
-                        usleep($sleepMs * 1000);
-                    }
+                    usleep(100000); // 100ms delay between attempts
                 }
 
-                throw new \RuntimeException('Failed to acquire lock after maximum attempts');
+                return parent::validate($credentials);
             } finally {
-                if ($lock->owned()) {
-                    $lock->release();
-                }
+                optional($lock)->release();
             }
         }
     }
