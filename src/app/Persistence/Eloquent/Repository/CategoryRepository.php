@@ -62,7 +62,17 @@ readonly class CategoryRepository implements ICategoryRepository
     {
         $result = $this->model::query()
             ->where('user_id', $userId)
-            ->where('name', '=', $name)
+            ->where('name', $name)
+            ->first();
+
+        return $result ? CategoryMapper::fromEloquent($result) : null;
+    }
+
+    public function findById(string $userId, string $id): ?Category
+    {
+        $result = $this->model::query()
+            ->where('user_id', $userId)
+            ->where('id', $id)
             ->first();
 
         return $result ? CategoryMapper::fromEloquent($result) : null;

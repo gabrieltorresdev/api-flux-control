@@ -12,6 +12,7 @@ interface ICategoryRepository
     public function create(string $userId, string $name, CategoryType $type, ?string $icon): Category;
     public function createDefault(string $userId, string $name, CategoryType $type): Category;
     public function findByName(string $userId, string $name): ?Category;
+    public function findById(string $userId, string $id): ?Category;
     public function delete(string $userId, string $id): void;
     public function update(string $userId, string $id, string $name, CategoryType $type, string $icon): Category;
 }

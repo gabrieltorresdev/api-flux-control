@@ -7,11 +7,13 @@ use App\Core\Application\Category\Action\DeleteCategoryAction;
 use App\Core\Application\Category\Action\ListCategoriesAction;
 use App\Core\Application\Category\Action\GetCategoryByNameAction;
 use App\Core\Application\Category\Action\UpdateCategoryAction;
+use App\Core\Application\Category\Action\ShowCategoryAction;
 use App\Core\Application\Category\DTO\Create\InCreateCategory;
 use App\Core\Application\Category\DTO\Delete\InDeleteCategory;
 use App\Core\Application\Category\DTO\List\InListCategories;
 use App\Core\Application\Category\DTO\Show\InGetCategoryByName;
 use App\Core\Application\Category\DTO\Update\InUpdateCategory;
+use App\Core\Application\Category\DTO\Show\InShowCategory;
 use App\Http\Requests\CreateCategoryRequest;
 use App\Http\Requests\UpdateCategoryRequest;
 use Illuminate\Http\JsonResponse;
@@ -74,5 +76,17 @@ class CategoryController extends Controller
         $action->execute(InDeleteCategory::from($data));
 
         return $this->noContent();
+    }
+
+    public function show(string $id, ShowCategoryAction $action): JsonResponse
+    {
+        $data = [
+            'userId' => Auth::id(),
+            'id' => $id
+        ];
+
+        $result = $action->execute(InShowCategory::from($data));
+
+        return $this->ok('Category found successfully!', $result);
     }
 }

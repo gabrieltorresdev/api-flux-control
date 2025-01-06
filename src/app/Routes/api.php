@@ -34,6 +34,7 @@ Route::group([
         Route::get('', [CategoryController::class, 'index']);
         Route::post('', [CategoryController::class, 'create']);
         Route::get('/by-name/{name}', [CategoryController::class, 'getByName']);
+        Route::get('/{id}', [CategoryController::class, 'show']);
         Route::delete('/{id}', [CategoryController::class, 'delete']);
         Route::put('/{id}', [CategoryController::class, 'update']);
     });
