@@ -8,7 +8,6 @@ use App\Shared\ObjectAbstract;
 class OutShowCategory extends ObjectAbstract
 {
     public string $id;
-    public string $userId;
     public string $name;
     public CategoryType $type;
     public ?string $icon;

@@ -10,8 +10,9 @@ Route::group([
 ], function () {
     Route::group([
         'prefix' => 'users',
+        'middleware' => ['auth:api']
     ], function () {
-        Route::get('/', [UserController::class, 'index']);
+        Route::get('/status', [UserController::class, 'status']);
     });
 
     Route::group([

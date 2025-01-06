@@ -21,7 +21,7 @@ class UserMapper implements Mapper
             email: $model->email,
             username: $model->username,
             keycloakId: $model->keycloak_id,
-            status: UserStatus::from($model->status)
+            status: $model->status instanceof UserStatus ? $model->status : UserStatus::from($model->status)
         );
     }
 }
