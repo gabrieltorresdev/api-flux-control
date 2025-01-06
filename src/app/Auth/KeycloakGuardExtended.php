@@ -21,8 +21,37 @@ class KeycloakGuardExtended extends KeycloakGuard
         try {
             return parent::validate($credentials);
         } catch (UserNotFoundException $e) {
-            $this->initializeUserEnvironmentFromToken($credentials);
-            return parent::validate($credentials);
+            $username = $credentials[$this->config['user_provider_credential']] ?? null;
+            if (!$username) {
+                throw $e;
+            }
+
+            $lockKey = "user_initialization_{$username}";
+            $lock = cache()->lock($lockKey, 30); // Aumentado para 30 segundos
+            $maxAttempts = 5;
+            $attempt = 0;
+
+            try {
+                while ($attempt < $maxAttempts) {
+                    if ($lock->get()) {
+                        $this->initializeUserEnvironmentFromToken($credentials);
+                        return parent::validate($credentials);
+                    }
+
+                    $attempt++;
+                    if ($attempt < $maxAttempts) {
+                        // Exponential backoff com jitter
+                        $sleepMs = min(1000 * pow(2, $attempt), 5000) + rand(100, 1000);
+                        usleep($sleepMs * 1000);
+                    }
+                }
+
+                throw new \RuntimeException('Failed to acquire lock after maximum attempts');
+            } finally {
+                if ($lock->owned()) {
+                    $lock->release();
+                }
+            }
         }
     }
 
@@ -34,10 +63,9 @@ class KeycloakGuardExtended extends KeycloakGuard
             return null;
         }
 
-        match ($user->status) {
-            UserStatus::PENDING => $this->respondWithPendingStatus(),
-            UserStatus::FAILED => $this->respondWithFailedStatus(),
-        };
+        if (request()->route()->uri() !== 'api/v1/users/status' && $user->status->value !== UserStatus::COMPLETED->value) {
+            abort(Response::HTTP_UNAUTHORIZED, 'Unauthorized');
+        }
 
         return $user;
     }
@@ -58,15 +86,5 @@ class KeycloakGuardExtended extends KeycloakGuard
         );
 
         CompleteUserSetupJob::dispatch($user->id);
-    }
-
-    private function respondWithPendingStatus(): never
-    {
-        abort(Response::HTTP_ACCEPTED, 'Seu ambiente está sendo preparado, aguarde');
-    }
-
-    private function respondWithFailedStatus(): never
-    {
-        abort(Response::HTTP_INTERNAL_SERVER_ERROR, 'Houve um erro na criação do seu ambiente');
     }
 }
