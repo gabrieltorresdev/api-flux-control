@@ -19,10 +19,6 @@ RUN rm -rf /entrypoint
 RUN mkdir -p /entrypoint
 COPY docker/production/fly/entrypoint /entrypoint
 
-# Copy supervisor configurations
-COPY docker/production/fly/supervisor-queue.conf /etc/supervisor/conf.d/queue.conf
-COPY docker/production/fly/supervisor-fpm.conf /etc/supervisor/conf.d/fpm.conf
-
 RUN composer install --optimize-autoloader --no-dev \
     && mkdir -p storage/logs \
     && php artisan optimize:clear \
