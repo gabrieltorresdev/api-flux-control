@@ -50,4 +50,5 @@ console_command = 'php /var/www/html/artisan tinker'
 
 # Define the worker process
 [processes]
+  app = ""
   worker = "supervisord -c /etc/supervisor/conf.d/queue.conf"
