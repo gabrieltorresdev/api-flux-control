@@ -34,12 +34,19 @@ console_command = 'php /var/www/html/artisan tinker'
   min_machines_running = 0
   processes = ['app']
 
-# This VM is the main app (web server)
+# Define processes
+[processes]
+  app = "supervisord -c /etc/supervisor/conf.d/fpm.conf"
+  worker = "supervisord -c /etc/supervisor/conf.d/queue.conf"
+
+# Machine configuration for web app
 [[vm]]
   size = 'shared-cpu-1x'
+  app = "app"
   memory = '512mb'
-
-# This VM is only for the queue worker
+  processes = ["app"]
+  
+# Machine configuration for queue worker
 [[vm]]
   size = 'shared-cpu-1x'
   memory = '512mb'
@@ -47,7 +54,3 @@ console_command = 'php /var/www/html/artisan tinker'
   processes = ["worker"]
   min_machines_running = 1
   group = "workers"
-
-# Define the worker process
-[processes]
-  worker = "supervisord -c /etc/supervisor/conf.d/queue.conf"
