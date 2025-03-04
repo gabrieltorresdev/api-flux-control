@@ -55,4 +55,3 @@ RUN if grep -Fq "laravel/octane" /var/www/html/composer.json; then \
 EXPOSE 8080
 
 ENTRYPOINT ["/entrypoint/entrypoint.sh"]
-CMD ["php-fpm"]
