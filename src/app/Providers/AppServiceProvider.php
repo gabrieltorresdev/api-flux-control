@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use App\Auth\KeycloakGuardExtended;
+use App\Core\Application\Dashboard\Action\GetInsightsAction;
+use App\Core\Domain\Service\CategorySpendingAnalyzer;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\ServiceProvider;
 
@@ -13,7 +15,12 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        // Register GetInsightsAction with CategorySpendingAnalyzer
+        $this->app->bind(GetInsightsAction::class, function ($app) {
+            return new GetInsightsAction([
+                $app->make(CategorySpendingAnalyzer::class)
+            ]);
+        });
     }
 
     /**

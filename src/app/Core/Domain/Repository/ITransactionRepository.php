@@ -16,4 +16,10 @@ interface ITransactionRepository
     public function update(string $userId, string $id, string $categoryId, string $title, float $amount, Carbon $dateTime): Transaction;
     public function delete(string $userId, string $id): void;
     public function getSummary(string $userId, ?Carbon $startDate, ?Carbon $endDate, ?string $categoryId = null, ?string $search = null): array;
+    
+    /**
+     * Get spending summary grouped by category
+     * @return array<string, float> Array with category names as keys and total amounts as values
+     */
+    public function getCategorySpendingSummary(string $userId, Carbon $startDate, Carbon $endDate): array;
 }

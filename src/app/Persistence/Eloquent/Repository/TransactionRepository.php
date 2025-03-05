@@ -9,6 +9,7 @@ use App\Mapper\TransactionMapper;
 use App\Persistence\Eloquent\Model\TransactionModel as Model;
 use Carbon\Carbon;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\DB;
 
 readonly class TransactionRepository implements ITransactionRepository
 {
@@ -110,5 +111,29 @@ readonly class TransactionRepository implements ITransactionRepository
             ->where('user_id', $userId)
             ->findOrFail($id)
             ->delete();
+    }
+
+    public function getCategorySpendingSummary(string $userId, Carbon $startDate, Carbon $endDate): array
+    {
+        $results = $this->model::query()
+            ->select([
+                'categories.id',
+                'categories.name',
+                DB::raw('SUM(transactions.amount) as amount')
+            ])
+            ->join('categories', 'transactions.category_id', '=', 'categories.id')
+            ->where('transactions.user_id', $userId)
+            ->whereBetween('transactions.date_time', [$startDate, $endDate])
+            ->groupBy('categories.id', 'categories.name')
+            ->get()
+            ->map(fn($item) => [
+                'id' => $item->id,
+                'name' => $item->name,
+                'amount' => (float) $item->amount
+            ])
+            ->all();
+
+        // Index by category ID for easier lookup
+        return array_column($results, null, 'id');
     }
 }
