@@ -36,61 +36,6 @@ readonly class GetInsightsAction
             if ($insight !== null) {
                 $insights[] = $insight;
             }
-
-            // Add test insights for all possible types
-            $insights[] = new \App\Core\Domain\Entity\Insight(
-                id: \Ramsey\Uuid\Uuid::uuid4()->toString(),
-                type: \App\Core\Domain\Enum\InsightType::DANGER,
-                category: 'Test Category 1',
-                title: 'Test Danger Insight',
-                description: 'This is a test danger insight',
-                comparison: [
-                    'current' => 100,
-                    'previous' => 200,
-                    'percentageChange' => -50
-                ],
-                metadata: [
-                    'period' => $startDate->format('Y-m'),
-                    'actionUrl' => '/test/url',
-                    'actionLabel' => 'View Details'
-                ]
-            );
-
-            $insights[] = new \App\Core\Domain\Entity\Insight(
-                id: \Ramsey\Uuid\Uuid::uuid4()->toString(), 
-                type: \App\Core\Domain\Enum\InsightType::WARNING,
-                category: 'Test Category 2',
-                title: 'Test Warning Insight',
-                description: 'This is a test warning insight',
-                comparison: [
-                    'current' => 300,
-                    'previous' => 200,
-                    'percentageChange' => 50
-                ],
-                metadata: [
-                    'period' => $startDate->format('Y-m'),
-                    'actionUrl' => '/test/url',
-                    'actionLabel' => 'View Details'
-                ]
-            );
-
-            $insights[] = new \App\Core\Domain\Entity\Insight(
-                id: \Ramsey\Uuid\Uuid::uuid4()->toString(),
-                type: \App\Core\Domain\Enum\InsightType::INFO,
-                category: 'Test Category 3', 
-                title: 'Test Info Insight',
-                description: 'This is a test info insight',
-                comparison: [
-                    'current' => 150,
-                    'previous' => 100,
-                    'percentageChange' => 50
-                ],
-                metadata: [
-                    'period' => $startDate->format('Y-m'),
-                    'actionUrl' => '/test/url',
-                    'actionLabel' => 'View Details'
-                ]
-            );
         }
 
         return OutGetInsights::arrayOf($insights);
