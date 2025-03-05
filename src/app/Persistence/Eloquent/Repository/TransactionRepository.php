@@ -119,16 +119,18 @@ readonly class TransactionRepository implements ITransactionRepository
             ->select([
                 'categories.id',
                 'categories.name',
+                'categories.type',
                 DB::raw('SUM(transactions.amount) as amount')
             ])
             ->join('categories', 'transactions.category_id', '=', 'categories.id')
             ->where('transactions.user_id', $userId)
             ->whereBetween('transactions.date_time', [$startDate, $endDate])
-            ->groupBy('categories.id', 'categories.name')
+            ->groupBy('categories.id', 'categories.name', 'categories.type')
             ->get()
             ->map(fn($item) => [
                 'id' => $item->id,
                 'name' => $item->name,
+                'type' => $item->type,
                 'amount' => (float) $item->amount
             ])
             ->all();
