@@ -23,6 +23,7 @@ class UpdateCategoryRequest extends FormRequest
                 Rule::unique('categories', 'name')
                     ->where('user_id', Auth::id())
                     ->ignore($this->route('id'))
+                    ->whereNull('deleted_at')
             ],
             'type' => ['required', 'string', Rule::enum(CategoryType::class)],
             'icon' => ['nullable', 'string']

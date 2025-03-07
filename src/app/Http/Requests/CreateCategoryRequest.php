@@ -22,7 +22,7 @@ class CreateCategoryRequest extends FormRequest
                 'string',
                 Rule::unique('categories')->where(function ($query) {
                     return $query->where('user_id', Auth::id());
-                })
+                })->whereNull('deleted_at')
             ],
             'type' => ['required', 'string', Rule::enum(CategoryType::class)],
             'icon' => ['nullable', 'string', 'max:100']
