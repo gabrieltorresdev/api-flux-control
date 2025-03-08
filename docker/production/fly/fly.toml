@@ -31,7 +31,7 @@ console_command = 'php /var/www/html/artisan tinker'
   force_https = true
   auto_stop_machines = 'stop'
   auto_start_machines = true
-  min_machines_running = 1
+  min_machines_running = 0
   processes = ['app']
 
 # Main app VM
@@ -42,10 +42,11 @@ console_command = 'php /var/www/html/artisan tinker'
 # Queue worker VM
 [[vm]]
   size = 'shared-cpu-1x'
-  memory = '512mb'
+  memory = '256mb'
   cpu_kind = 'shared'
+  auto_start_machines = true
   processes = ["worker"]
-  min_machines_running = 1
+  min_machines_running = 0
   group = "workers"
 
 # Define processes
